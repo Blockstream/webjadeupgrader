@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Blockstream Jade Firmware Upgrade</title>
+    <link rel="stylesheet" href="https://use.typekit.net/chx2fbn.css">
+    <link rel="stylesheet" href="css/styleguide.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" href="images/favicon.jpeg" />
+    <script src="js/cbor-web.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <a class="logo" href="/">
+        <img src="images/logo.svg" class="logo-img" />
+      </a>
+    </header>
+    <main>
+      <div class="container">
+        <div class="jade-device">
+          <img id="jade-device-img" src="images/jade-device.svg" alt="icon" />
+          <img id="jade-device-unlock-img" src="images/jade-device-unlock.svg" alt="icon" />
+          <img id="jade-device-confirm-img" src="images/jade-device-confirm.svg" alt="icon" />
+          <img id="jade-device-updating-img" src="images/jade-device-updating.svg" alt="icon" />
+          <img id="jade-device-error-img" src="images/jade-device-error.svg" alt="icon" />
+          <img id="usb-cable-img" src="images/usb-cable.svg" alt="icon" />
+        </div>
+        <h1 class="title" id="title">
+          Update your Jade’s firmware for better security and compatibility
+        </h1>
+        <p class="subtitle" id="subtitle">Simple process that will require you connect your Jade via USB</p>
+        <div id="spinner"></div>
+        <a class="hidden service-btn" id="logs-btn" href="https://github.com/Blockstream/Jade/blob/master/CHANGELOG.md">View Changelog</a>
+        <button class="hidden g-btn green-btn" id="changefirmware" type="button" onclick="confirmChangingVersion()">Change Firmware Version</button>
+        <button class="hidden g-btn green-btn" id="showfirmwares" type="button" onclick="show_firmwares()">Update your Jade</button>
+
+        <img class="jade-img" src="images/jade.svg" alt="Jade" />
+        <!-- <img class="hidden" id="arrow-down" src="images/arrow.svg" alt="icon" /> -->
+        <button class="hidden g-btn green-btn" id="retry-btn" type="button" onClick="window.location.reload()">
+          Retry
+       </button>
+
+        <!-- <img id="usb-cable-plugged-img" src="images/usb-cable-plugged.svg" alt="icon" /> -->
+
+        <div id="error">
+        </div>
+        <div id="notSupported">
+                </br>
+                </br>
+                Your browser doesn't seem to have Web Serial enabled.
+                </br>
+                </br>
+                This page only supports Chrome 89 or later. Unfortunately Android currently doesn't have this feature enabled.
+                </br>
+        </div>
+        <div id="firmware_available">
+        </div>
+        <div id="firmware_flashing">
+        </div>
+        <button id="showall-btn" class="hidden g-btn green-ter-btn" type="button" onclick="showAll()" style="border: none;
+          background: none;
+          outline: none; margin-bottom: 20px;">Show All</button>
+        <button class="hidden g-btn green-btn" style="margin-bottom: 20px;" id="firmware_selected" type="button" onclick="on_firmware_selected()">Confirm Version</button>
+      </div>
+    </main>
+    <footer>
+      <div class="section">
+        <div class="block">
+          <span id="block-tag">Favorite</span>
+          <img src="images/green.svg" alt="icon"/>
+          <div class="block_desc">
+            <h4>Blockstream Green</h4>
+            <p>A multi-platform, feature-rich Bitcoin and Liquid wallet.</p>
+          </div>
+          <a class="service-btn blcks-serv" href="https://blockstream.com/green/">Explore Green</a>
+        </div>
+        <div class="block">
+          <img src="images/qr-icon.svg" alt="icon"/>
+          <div class="block_desc">
+            <h4>Get Started with QR Scan</h4>
+            <p>Learn more about how you can sign transactions using QR codes.</p>
+          </div>
+          <a class="service-btn blcks-serv" href="https://help.blockstream.com/hc/en-us/articles/11959440390041">QR 101 Start Guide</a>
+        </div>
+      </div>
+
+      <div class="section hidden wallets">
+        <div class="block">
+          <img src="images/electrum.svg" alt="icon"/>
+          <div class="block_desc">
+            <h4>Electrum Wallet</h4>
+            <p>Electrum was created by Thomas Voegtlin in November 2011.</p>
+          </div>
+          <a class="service-btn" href="https://electrum.org/#home">Explore Electrum</a>
+        </div>
+        <div class="block">
+          <img src="images/sparrow.svg" alt="icon"/>
+          <div class="block_desc">
+            <h4>Sparrow Bitcoin Wallet</h4>
+            <p>Sparrow is a Bitcoin wallet for those who value financial self sovereignty.</p>
+          </div>
+          <a class="service-btn" href="https://sparrowwallet.com/">Explore Sparrow</a>
+        </div>
+      </div>
+
+      <div class="section hidden wallets">
+        <div class="block">
+          <img src="images/specter.svg" alt="icon"/>
+          <div class="block_desc">
+            <h4>Specter Solutions</h4>
+            <p>A multi-platform, feature-rich Bitcoin and Liquid wallet.</p>
+          </div>
+          <a class="service-btn" href="https://specter.solutions/">Explore Specter</a>
+        </div>
+        <div class="block">
+          <img src="images/qr-icon.svg" alt="icon" style="visibility: hidden;" />
+          <div class="block_desc">
+            <h4>And other platforms</h4>
+            <p>A multi-platform, feature-rich Bitcoin and Liquid wallet.</p>
+          </div>
+          <a class="service-btn" href="https://help.blockstream.com/hc/en-us/articles/9601453403801-Which-platforms-support-Blockstream-Jade-">Explore All Platforms</a>
+        </div>
+      </div>
+
+
+    </footer>
+    <script src="js/jade.js"></script>
+    <script src="js/ota.js"></script>
+  </body>
+</html>

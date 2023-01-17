@@ -1,0 +1,42 @@
+variables:
+  CI_DISPOSABLE_ENVIRONMENT: "true"
+
+stages:
+  - format
+  - deploy
+
+test_format:
+  image: debian:bullseye
+  stage: format
+  script:
+    - apt-get update -qq
+    - apt-get install --no-install-recommends --no-install-suggests -yqq clang-format git
+    - ./format.sh
+    - git diff --exit-code
+
+.deploy:entry:
+  image: glregistry.blockstream.io/blockstream/p/gcloud-docker
+  before_script:
+    - TMPF=$(mktemp) || exit 1
+    - echo $GCLOUD_KEY > $TMPF
+    - export GOOGLE_APPLICATION_CREDENTIALS=$TMPF
+    - gcloud auth activate-service-account --key-file=$TMPF
+    - gcloud auth list
+    - gcloud --version
+
+deploy_dry_run:
+  extends: .deploy:entry
+  stage: deploy
+  only:
+    - branches@blockstream/webjadeupgrader
+  script:
+    - gsutil -m rsync -nrux '^\..*|.*\.md' . gs://jadefw.blockstream.com/upgrade
+
+deploy:
+  extends: .deploy:entry
+  stage: deploy
+  when: manual
+  only:
+    - master@blockstream/webjadeupgrader
+  script:
+    - gsutil -m rsync -rux '^\..*|.*\.md' . gs://jadefw.blockstream.com/upgrade
